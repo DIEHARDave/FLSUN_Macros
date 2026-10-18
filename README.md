@@ -65,7 +65,7 @@ SET_PRINT_STATS_INFO TOTAL_LAYER=[total_layer_count]
 PRINT_END
 ```
 
-`PRINT_START` homes and heats the bed, waits for the bed to soak (1 minute for PLA, 2 for PETG, 5 for ASA and ABS, 3 for others), loads the bed mesh for that bed temperature (making it first if there isn't one, see below), heats the nozzle and draws a prime line. It also sets the Z offset for the material (0 unless you set one). `PRINT_END` retracts 30 mm, turns the heaters off and homes, then runs FLSun's `END_PRINT`: the extruder motor goes off and the part fan cools the print at full speed for 100 seconds.
+`PRINT_START` homes and heats the bed, waits for the bed to soak (1 minute for PLA, 2 for PETG, 5 for ASA and ABS, 3 for others), loads the bed mesh for that bed temperature (making it first if there isn't one, see below), then parks the nozzle at the left edge, over the start of the prime line, while it heats, so anything that oozes out lands there and not in the middle of the print, and draws the prime line. It also sets the Z offset for the material (0 unless you set one). `PRINT_END` retracts 30 mm, turns the heaters off and homes, then runs FLSun's `END_PRINT`: the extruder motor goes off and the part fan cools the print at full speed for 100 seconds.
 
 The soak times and Z offsets are defaults. To change one, use `SET_START_PRINT_VAR`; it's saved, so it survives restarts:
 
