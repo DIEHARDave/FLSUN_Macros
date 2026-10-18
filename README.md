@@ -6,7 +6,7 @@ Klipper macros for the **FLSun T1 Pro** that its stock firmware is missing, inst
 | :--- | :--- |
 | `pause_at_layer.cfg` | Pause (or run `M600` or any macro) at a chosen layer |
 | `print_start.cfg` | `PRINT_START` and `PRINT_END`: heat soak and Z offset per material, a bed mesh for the bed temperature, a prime line |
-| `bed_mesh.cfg` | Bed meshes per bed temperature (`MESH_IF_NEEDED`, `MESH_TEMP_SWEEP`), and `BED_LEVEL_1`/`BED_LEVEL_2` that keep your temperatures |
+| `bed_mesh.cfg` | Bed meshes per bed temperature (`MESH_IF_NEEDED`, `MESH_TEMP_SWEEP`), an adaptive mesh around the print (`ADAPTIVE_MESH`), and `BED_LEVEL_1`/`BED_LEVEL_2` that keep your temperatures |
 | `filament.cfg` | `LOAD_FILAMENT` and `UNLOAD_FILAMENT` |
 | `tuning.cfg` | `PID_EXTRUDER` and `PID_BED` |
 | `light.cfg` | `LED_ON` and `LED_OFF` for the chamber light |
@@ -80,6 +80,21 @@ The soak times and Z offsets are defaults. To change one, use `SET_START_PRINT_V
 ## Bed mesh per temperature
 
 A bed shifts as it heats, so a mesh made at 60 °C doesn't fit a 100 °C bed. `PRINT_START` loads a mesh named after the bed temperature, such as `60.0c`, and probes one (after a 1-minute soak) if it doesn't exist yet. A mesh made that way lasts until Klipper restarts; run `SAVE_CONFIG` after the print to keep it. `MESH_TEMP_SWEEP` makes them all at once, from 55 to 110 °C in 5 °C steps, and saves them; it takes a while.
+
+### Adaptive mesh
+
+Instead of the saved mesh, `PRINT_START` can probe a fresh mesh just around what you're printing: a small print in the middle takes 5 probes instead of the full bed's 29, and the mesh is measured on the bed as it is today. It needs upstream Klipper ([FLSUN_klipper](https://github.com/DIEHARDave/FLSUN_klipper)) and **Exclude objects** turned on in Orca (Process, Others), which tells the printer where the objects are. Without either, the saved mesh is used as before.
+
+| Command | What it does |
+| :--- | :--- |
+| `SET_START_PRINT_VAR NAME=adaptive_mesh VALUE=1` | Use an adaptive mesh for every print (`VALUE=0` goes back to the saved meshes) |
+| `SET_START_PRINT_VAR NAME=adaptive_margin VALUE=10` | Probe 10 mm around the objects (5 by default) |
+| `PRINT_START ... ADAPTIVE=1` | For one print only, in Orca's start G-code (`ADAPTIVE=0` turns it off for one print) |
+| `ADAPTIVE_MESH` | Probe one now, around the objects of the file being printed |
+
+The adaptive mesh isn't saved, so your per-temperature meshes stay as they are. The nozzle is heated to 140 °C for probing, as for the saved meshes. The prime line at the edge of the bed is outside the adaptive mesh and uses the height at its nearest edge.
+
+### Bed levelling
 
 `BED_LEVEL_1` and `BED_LEVEL_2` replace FLSun's. Set the bed and nozzle to your usual printing temperatures first. `BED_LEVEL_1` remembers them, then runs the delta calibration at 140 °C (nozzle) and 60 °C (bed), like FLSun's. `BED_LEVEL_2` heats back to the temperatures you set and makes the mesh there. Neither saves on its own: run `SAVE_CONFIG` afterwards (it restarts Klipper).
 
