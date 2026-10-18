@@ -32,6 +32,8 @@ Each pause fires once, then clears itself. `RESUME` continues the print as usual
 
 ### Slicer setup (required)
 
+You can install the OrcaSlicer profile found in Orca Cloud here: https://cloud.orcaslicer.com/b/4a1e3c1b305c or manually enter the information below.
+
 The T1 Pro's firmware doesn't know which layer it's printing, so the slicer has to tell it. In OrcaSlicer, open the printer profile, then **Machine G-code**:
 
 - At the end of **Machine start G-code**, add:
