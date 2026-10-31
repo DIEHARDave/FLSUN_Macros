@@ -1,5 +1,7 @@
 # FLSUN_Macros
 
+> **Parts:** the printers, boards, readers and other gear that go with this project are listed at [projects.die-hard.net/gear](https://projects.die-hard.net/gear) (Amazon affiliate links).
+
 Klipper macros for the **FLSun T1 Pro** that its stock firmware is missing, installed as a plugin and kept up to date through Mainsail's and Fluidd's update manager. They work with FLSun's Klipper and with upstream Klipper ([FLSUN_klipper](https://github.com/DIEHARDave/FLSUN_klipper)).
 
 | Macro file | What it adds |
