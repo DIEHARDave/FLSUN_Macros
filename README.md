@@ -104,7 +104,7 @@ The adaptive mesh isn't saved, so your per-temperature meshes stay as they are. 
 
 ## Filament, PID and light
 
-- `LOAD_FILAMENT` heats the nozzle to 240 °C if it's colder than 235 °C, then feeds 230 mm in. For other materials, heat the nozzle yourself first. `UNLOAD_FILAMENT` pulls 100 mm back out; heat the nozzle first.
+- `LOAD_FILAMENT` heats the nozzle to 240 °C if it's colder than 235 °C, then feeds 230 mm in. For other materials, heat the nozzle yourself first. `UNLOAD_FILAMENT` pulls 100 mm back out and clears the active spool in Spoolman; heat the nozzle first.
 - `PID_EXTRUDER` (270 °C) and `PID_BED` (100 °C) tune the heaters and save the result.
 - `LED_ON` and `LED_OFF` switch the chamber light.
 
